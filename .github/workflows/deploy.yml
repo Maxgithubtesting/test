@@ -27,9 +27,9 @@ jobs:
           aws-secret-access-key : ${{ secrets.AWS_SECRET }}
           aws-region            : ${{ env.REGION }}
 
-      - name: Deploy to S3
-        #run: aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ env.S3 }}/
-        run: aws deploy create-application --application-name HelloWorld_App
+      # - name: Deploy to S3
+      #   #run: aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ env.S3 }}/
+      #   run: aws deploy create-application --application-name HelloWorld_App
 
       - name: Deploy step-2
         run: aws deploy push --application-name HelloWorld_App --s3-location ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ env.S3 }} --ignore-hidden-files
