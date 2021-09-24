@@ -32,7 +32,7 @@ jobs:
       #   run: aws deploy create-application --application-name HelloWorld_App
 
       - name: Deploy step-2
-        run: aws deploy push --application-name HelloWorld_App --s3-location ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ env.S3 }} --ignore-hidden-files
+        run: aws deploy push --application-name HelloWorld_App --s3-location s3://${{ env.S3 }} ${{ env.DEPLOY_PACKAGE_NAME }}  --ignore-hidden-files
 
   # cd_part:
   #   runs-on: ubuntu-latest
