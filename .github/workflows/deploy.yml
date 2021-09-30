@@ -36,11 +36,11 @@ jobs:
       # - run: cd dist && rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . ubuntu@13.58.226.196
       # - run: chmod a+rwx ubuntu@13.58.226.196:/var/www/theroadstore.uk/html/
       - name: Configure credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id     : ${{ secrets.AWS_ACCESS }}
-        aws-secret-access-key : ${{ secrets.AWS_SECRET }}
-        aws-region            : ${{ env.REGION }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id     : ${{ secrets.AWS_ACCESS }}
+          aws-secret-access-key : ${{ secrets.AWS_SECRET }}
+          aws-region            : ${{ env.REGION }}
 
       - run: cd dist && rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . ubuntu@13.58.226.196:/var/www/theroadstore.uk/html/
 
