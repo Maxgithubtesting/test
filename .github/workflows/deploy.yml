@@ -31,7 +31,6 @@ jobs:
       #   #run: aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ env.S3 }}/
       #   run: aws deploy create-application --application-name HelloWorld_App
 
-      - name: Deploy step-2
       - run: set -eu
       - run: mkdir "$HOME/.ssh"
       - run: echo "${{ secrets.SSH_KEY }}" > "$HOME/.ssh/key"
