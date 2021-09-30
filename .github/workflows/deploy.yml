@@ -16,40 +16,34 @@ jobs:
     steps:
       - name: Git clone out repo
         uses: actions/checkout@v2
-         with:
-          node-version: '14'
 
       - name: Create ZIP deployment package
         run: zip -r ${{ env.DEPLOY_PACKAGE_NAME }} ./ 
 
-      - run: set -eu
-      - run: mkdir "$HOME/.ssh"
-      - run: echo "${{ secrets.SSH_KEY }}" > "$HOME/.ssh/key"
-      - run: chmod 600 "$HOME/.ssh/key"
-      # Build
-      - run: npm ci
-      - run: npm run build
-      # Deploy
-      # - run: sudo ufw allow 22
-      # - run: chown -R ubuntu /var/www/theroadstore.uk/html/
-      # - run: chmod a+rwx /var/www/theroadstore.uk/html/
-      # - run: cd dist && rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . ubuntu@13.58.226.196
-      # - run: chmod a+rwx ubuntu@13.58.226.196:/var/www/theroadstore.uk/html/
       - name: Configure credentials
         uses: aws-actions/configure-aws-credentials@v1
-          with:
-            aws-access-key-id     : ${{ secrets.AWS_ACCESS }}
-            aws-secret-access-key : ${{ secrets.AWS_SECRET }}
-            aws-region            : ${{ env.REGION }}
-
-      - run: cd dist && rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . ubuntu@13.58.226.196:/var/www/theroadstore.uk/html/
+        with:
+          aws-access-key-id     : ${{ secrets.AWS_ACCESS }}
+          aws-secret-access-key : ${{ secrets.AWS_SECRET }}
+          aws-region            : ${{ env.REGION }}
 
       # - name: Deploy to S3
       #   #run: aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ env.S3 }}/
       #   run: aws deploy create-application --application-name HelloWorld_App
 
-      # - name: Deploy step-2
-      #   run: aws deploy push --application-name HelloWorld_App --s3-location s3://${{ env.S3 }}/${{ env.DEPLOY_PACKAGE_NAME }}  --ignore-hidden-files
+      - name: Deploy step-2
+      - run: set -eu
+      - run: mkdir "$HOME/.ssh"
+      - run: echo "${{ secrets.SSH_KEY }}" > "$HOME/.ssh/key"
+      - run: chmod 600 "$HOME/.ssh/key"
+      - name: Configure credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id     : ${{ secrets.AWS_ACCESS }}
+          aws-secret-access-key : ${{ secrets.AWS_SECRET }}
+          aws-region            : ${{ env.REGION }}
+
+      - run: cd dist && rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . ubuntu@13.58.226.196:/var/www/theroadstore.uk/html/
 
   # cd_part:
   #   runs-on: ubuntu-latest
